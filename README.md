@@ -79,6 +79,49 @@ or
 
     docker run -v $(pwd)/.caddy:/root/.caddy
 
-### License
+## Plugins Enabled
+
+By default the following additional plugins have been included with this build:
+
+```
+ - dns
+ - docker
+ - dyndns
+ - net
+ - hook.service
+ - http.authz
+ - http.awslambda
+ - http.cache
+ - http.cgi
+ - http.cors
+ - http.expires
+ - http.filemanager
+ - http.filter
+ - http.forwardproxy
+ - http.geoip
+ - http.git
+ - http.gopkg
+ - http.ipfilter
+ - http.jekyll
+ - http.jwt
+ - http.locale
+ - http.minify
+ - http.nobots
+ - http.proxyprotocol
+ - http.ratelimit
+ - http.realip
+ - http.reauth
+ - http.restic
+ - http.upload
+ - http.webdav
+ - tls.dns.azure
+ - tls.dns.cloudflare
+ - tls.dns.digitalocean
+ - tls.dns.dnsimple
+ - tls.dns.googlecloud
+ - tls.dns.route53
+```
+
+## License
 
 The code is available under the [MIT License](https://github.com/ned-kelly/alpine-caddy/tree/master/LICENSE) and is a fork of the [ZZROTDesign/alpine-caddy ](https://github.com/ZZROTDesign/alpine-caddy) project.
