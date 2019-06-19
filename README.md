@@ -4,7 +4,7 @@
 
 This is a [Docker](https://www.docker.com/) image for [Caddyserver](https://caddyserver.com/). This image runs with a base of [Alpine-Linux](http://www.alpinelinux.org/) making it extremely small, secure and fast.
 
-This image can also be found on [Docker Hub](https://hub.docker.com/r/bushrangers/alpine-caddy/) - and is currently based on the caddy v0.11.1 build.
+This image can also be found on [Docker Hub](https://hub.docker.com/r/bushrangers/alpine-caddy/) - and is automatically built each week using the latest official (stable) release from caddyserver.com.
 
 ## Usage
 We recommend using our images in conjunction with [Docker-Compose](https://docs.docker.com/compose/). This allows for easier creation of containers with the proper volumes and ports enabled.
