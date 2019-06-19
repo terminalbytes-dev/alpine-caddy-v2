@@ -5,7 +5,7 @@ RUN apk --no-cache add tini git openssh-client \
     && apk --no-cache add --virtual devs tar curl
 
 #Install Caddy Server, and All Middleware
-RUN curl "https://caddyserver.com/download/linux/amd64?plugins=dns,docker,dyndns,hook.service,http.authz,http.awslambda,http.cache,http.cgi,http.cors,http.expires,http.filemanager,http.filter,http.forwardproxy,http.geoip,http.git,http.gopkg,http.ipfilter,http.jekyll,http.jwt,http.locale,http.minify,http.nobots,http.proxyprotocol,http.ratelimit,http.realip,http.reauth,http.restic,http.upload,http.webdav,net,tls.dns.azure,tls.dns.cloudflare,tls.dns.digitalocean,tls.dns.dnsimple,tls.dns.googlecloud,tls.dns.route53&license=personal&telemetry=off" \
+RUN curl "https://caddyserver.com/download/linux/amd64?plugins=dns,docker,hook.service,http.awslambda,http.cache,http.cgi,http.cors,http.expires,http.filter,http.forwardproxy,http.ipfilter,http.mailout,http.nobots,http.permission,http.ratelimit,http.realip,http.s3browser,http.webdav,net,supervisor,tls.dns.azure,tls.dns.cloudflare,tls.dns.digitalocean,tls.dns.dyn,tls.dns.godaddy,tls.dns.googlecloud,tls.dns.lightsail,tls.dns.linode,tls.dns.ns1,tls.dns.rfc2136,tls.dns.route53&license=personal&telemetry=on" \
     | tar --no-same-owner -C /usr/bin/ -xz caddy
 
 #Remove build devs
