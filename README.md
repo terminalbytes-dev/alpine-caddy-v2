@@ -79,47 +79,58 @@ or
 
     docker run -v $(pwd)/.caddy:/root/.caddy
 
-## Plugins Enabled
+## Plugins Enabled in this Build
 
-By default the following additional plugins have been included with this build:
+By default the following additional plugins have been included with this build _(you can read about them on their respective github web pages)_:
 
 ```
- - dns
- - docker
- - dyndns
- - net
- - hook.service
- - http.authz
- - http.awslambda
- - http.cache
- - http.cgi
- - http.cors
- - http.expires
- - http.filemanager
- - http.filter
- - http.forwardproxy
- - http.geoip
- - http.git
- - http.gopkg
- - http.ipfilter
- - http.jekyll
- - http.jwt
- - http.locale
- - http.minify
- - http.nobots
- - http.proxyprotocol
- - http.ratelimit
- - http.realip
- - http.reauth
- - http.restic
- - http.upload
- - http.webdav
- - tls.dns.azure
- - tls.dns.cloudflare
- - tls.dns.digitalocean
- - tls.dns.dnsimple
- - tls.dns.googlecloud
- - tls.dns.route53
+ 
+ ## SERVER TYPES - Things Caddy can serve
+
+- net
+- dns
+- supervisor
+
+## DNS PROVIDERS - Obtain certificates using DNS
+
+- tls.dns.azure
+- tls.dns.cloudflare
+- tls.dns.digitalocean
+- tls.dns.dyn
+- tls.dns.godaddy
+- tls.dns.googlecloud
+- tls.dns.lightsail
+- tls.dns.linode
+- tls.dns.ns1
+- tls.dns.rfc2136
+- tls.dns.route53
+
+## EVENT HOOKS - Plugins that are triggered by events
+
+- hook.service
+
+## CADDYFILE LOADERS - Ways to load the Caddyfile
+- Caddyfile
+- docker
+
+## DIRECTIVES/MIDDLEWARE - Extra functionality with the Caddyfile
+
+- http.awslambda
+- http.cache
+- http.cgi
+- http.cors
+- http.expires
+- http.filter
+- http.forwardproxy
+- http.ipfilter
+- http.mailout
+- http.nobots
+- http.permission
+- http.ratelimit
+- http.realip
+- http.s3browser
+- http.webdav
+ 
 ```
 
 ## License
