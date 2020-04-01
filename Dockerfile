@@ -1,12 +1,21 @@
-FROM alpine:edge
+FROM --platform=${TARGETPLATFORM:-linux/amd64} alpine:edge
 MAINTAINER David N <david@nedved.com.au>
 
-RUN apk --no-cache add tini git curl openssh-client \
+ARG BUILD_DATE
+ARG VERSION
+ARG VCS_REF
+ARG TARGETPLATFORM
+
+LABEL org.label-schema.build-date=$BUILD_DATE \
+  org.label-schema.version=$VERSION \
+  org.label-schema.vcs-ref=$VCS_REF
+
+RUN apk --no-cache add tini git bash curl openssh-client \
     && apk --no-cache add --virtual devs tar
 
 #Install Caddy Server, and All Middleware
-RUN curl "https://caddyserver.com/download/linux/amd64?plugins=dns,docker,hook.service,http.awslambda,http.cache,http.cgi,http.cors,http.expires,http.filter,http.forwardproxy,http.ipfilter,http.mailout,http.nobots,http.permission,http.ratelimit,http.realip,http.s3browser,http.webdav,net,supervisor,tls.dns.azure,tls.dns.cloudflare,tls.dns.digitalocean,tls.dns.dyn,tls.dns.godaddy,tls.dns.googlecloud,tls.dns.lightsail,tls.dns.linode,tls.dns.ns1,tls.dns.rfc2136,tls.dns.route53&license=personal&telemetry=off" \
-    | tar --no-same-owner -C /usr/bin/ -xz caddy
+COPY ./build.sh /opt
+RUN bash /opt/build.sh && rm -rf /opt/build.sh
 
 #Remove build devs
 RUN apk del devs
