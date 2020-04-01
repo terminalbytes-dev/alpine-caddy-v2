@@ -26,8 +26,6 @@ esac
 
 
 curl \
-    --speed-time 15 \
-    --speed-limit 1000 \
     --connect-timeout 5 \
     --max-time 60 \
     "https://caddyserver.com/download/${CADDY_ARCH}?plugins=dns,docker,hook.service,http.awslambda,http.cache,http.cgi,http.cors,http.expires,http.filter,http.forwardproxy,http.ipfilter,http.mailout,http.nobots,http.permission,http.ratelimit,http.realip,http.s3browser,http.webdav,net,supervisor,tls.dns.azure,tls.dns.cloudflare,tls.dns.digitalocean,tls.dns.dyn,tls.dns.godaddy,tls.dns.googlecloud,tls.dns.lightsail,tls.dns.linode,tls.dns.ns1,tls.dns.rfc2136,tls.dns.route53&license=personal&telemetry=off" \
