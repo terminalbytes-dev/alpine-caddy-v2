@@ -14,8 +14,8 @@ RUN apk --no-cache add tini git bash curl openssh-client \
     && apk --no-cache add --virtual devs tar
 
 #Install Caddy Server, and All Middleware
-COPY ./build.sh /opt
-RUN bash /opt/build.sh && rm -rf /opt/build.sh
+COPY ./.build.sh /opt
+RUN bash /opt/.build.sh && rm -rf /opt/.build.sh
 
 #Remove build devs
 RUN apk del devs
