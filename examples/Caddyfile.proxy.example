@@ -1,34 +1,37 @@
-##Example Caddyfile config for a reverse proxy
+{
+    email example@example.com # Global setting for Let's Encrypt email
+}
 
 www.example.com, example.com {
+    reverse_proxy example-server:80 {
+        header_up Host {http.request.host}
+        header_up X-Real-IP {http.request.remote}
+        header_up X-Forwarded-Proto {http.request.scheme}
+    }
 
-				proxy / example-server:80 {#This is the name of your container
-					proxy_header Host {host}
-					proxy_header X-Real-IP {remote}
-					proxy_header X-Forwarded-Proto {scheme}
-				}
+    # Set any additional headers for your site
+    header {
+        # Define headers here
+    }
 
-				header / {
-					#Include any headers for your site here
-				}
+    encode gzip
 
-				gzip
-
-				tls example@example.com #Your email for Let's Encrypt Verification
+    # TLS configuration is automatically managed with the specified email
 }
 
 blog.example.com {
-			proxy / example-blog:2368 {
-				proxy_header Host {host}
-				proxy_header X-Real-IP {remote}
-				proxy_header X-Forwarded-Proto {scheme}
-			}
+    reverse_proxy example-blog:2368 {
+        header_up Host {http.request.host}
+        header_up X-Real-IP {http.request.remote}
+        header_up X-Forwarded-Proto {http.request.scheme}
+    }
 
-			header / {
-				#Include any headers for your site here
-			}
+    # Set any additional headers for your site
+    header {
+        # Define headers here
+    }
 
-			gzip
+    encode gzip
 
-			tls example@example.com #Your email for Let's Encrypt Verification
+    # TLS configuration is automatically managed with the specified email
 }

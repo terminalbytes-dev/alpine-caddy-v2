@@ -1,7 +1,7 @@
 version: '2'
 services:
     web:
-        image: zzrot/alpine-caddy
+        image: bushrangers/alpine-caddy-v2
         ports:
             -   80:80
         volumes:

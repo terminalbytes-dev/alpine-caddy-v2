@@ -1,9 +1,46 @@
-0.0.0.0:80
+{
+    # Global options block
+    # Specify the admin interface's address (optional)
+    admin 127.0.0.1:2019
+}
 
-root /var/www/html
+# Define a site
+0.0.0.0:80 {
+    # Set the site root
+    root * /var/www/html
 
-log stdout
+    # Log to stdout
+    log {
+        output stdout
+    }
 
-errors stdout
+    # Handle errors with logging
+    handle_errors {
+        rewrite * /{http.error.status_code}.html
+        root * /var/www/html/errors
+        file_server
+    }
 
-ext .html .htm .php
+    # Serve files with specific extensions, handling PHP through FastCGI if needed
+    @staticFiles {
+        file {
+            try_files {path} {path}/ /index.php?{query}&p={path}
+        }
+        path *.html *.htm *.php
+    }
+    handle @staticFiles {
+        # If PHP is needed, uncomment and adjust the following line:
+        # reverse_proxy unix//run/php/php-fpm.sock
+
+        # For static files
+        file_server
+    }
+
+    # Rewrite to support clean URLs (if necessary)
+    # rewrite {
+    #     to {path} {path}/ /index.php?{query}
+    # }
+}
+
+# Note: Caddy 2 automatically serves .html and .htm files without needing explicit configuration for extensions.
+# If you're serving PHP, you'll need to configure PHP-FPM and use the `php_fastcgi` directive.
