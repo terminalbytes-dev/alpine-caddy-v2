@@ -11,6 +11,9 @@ on:
   #    - master
   #  tags:
 
+  # Allow for manual triggers of builds
+  workflow_dispatch:
+
   # Schedule weekly cron to build image...
   schedule:
     - cron:  '0 0 * * 1'
