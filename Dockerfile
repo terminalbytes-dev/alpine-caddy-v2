@@ -25,4 +25,4 @@ COPY ./Caddyfile /etc/Caddyfile
 
 #USER caddy
 ENTRYPOINT ["/sbin/tini"]
-CMD ["caddy", "-quic", "--conf", "/etc/Caddyfile"]
+CMD ["caddy", "run", "--config", "/etc/Caddyfile", "--adapter", "caddyfile"]
