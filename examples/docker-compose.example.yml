@@ -1,10 +1,24 @@
 version: '2'
 services:
-    web:
-        image: bushrangers/alpine-caddy-v2
-        ports:
-            -   80:80
-        volumes:
-            -   ./Caddyfile:/etc/Caddyfile
-            -   ./public:/var/www/html
-            -   ./.caddy:/root/.caddy
+
+  caddy:
+    image: bushrangers/alpine-caddy-v2:latest
+    container_name: caddy
+    privileged: true
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./Caddyfile:/etc/Caddyfile
+      - ./caddy:/root
+
+    ulimits:
+      nproc: 65535
+      nofile:
+      soft: 20000
+        hard: 40000
+
+    # Optional - put caddy in a 'network' and add your other containers to the same network to allow cross container communication.
+    # networks:
+    #   - caddy-net
