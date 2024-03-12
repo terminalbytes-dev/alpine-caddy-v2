@@ -19,51 +19,40 @@ jobs:
   buildx:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Prepare
-        id: prepare
-        run: |
-          if [[ $GITHUB_REF == refs/tags/* ]]; then
-            echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
-          else
-            echo ::set-output name=version::${GITHUB_SHA::8}
-          fi
-          echo ::set-output name=build_date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
-          echo ::set-output name=docker_platforms::linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/386
-          echo ::set-output name=docker_image::bushrangers/alpine-caddy
-      -
-        name: Checkout
-        uses: actions/checkout@v1
-      -
-        name: Set up Docker Buildx
-        id: buildx
-        uses: crazy-max/ghaction-docker-buildx@v1
+
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
         with:
-          version: latest
-      -
-        name: Available platforms
-        run: echo ${{ steps.buildx.outputs.platforms }}
-      -
-        name: Docker Login
-        if: success()
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        run: |
-          echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
-      -
-        name: Run Buildx (Push to Docker Hub)
-        run: |
-          docker buildx build --platform ${{ steps.prepare.outputs.docker_platforms }} \
-            --output "type=image,push=true" \
-            --build-arg "BUILD_DATE=${{ steps.prepare.outputs.build_date }}" \
-            --build-arg "VCS_REF=${GITHUB_SHA::8}" \
-            --build-arg "VERSION=${{ steps.prepare.outputs.version }}" \
-            --tag "${{ steps.prepare.outputs.docker_image }}:latest" \
-            --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }}" \
-            --file Dockerfile .
-      -
-        name: Clear
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: bushrangers/alpine-caddy-v2:tagname # Replace 'tagname' as needed
+          build-args: |
+            BUILD_DATE=${{ steps.date.outputs.date }}
+            VERSION=1.0.0
+            VCS_REF=${{ github.sha }}
+          platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
+
+      - name: Logout of Docker Hub
+        run: docker logout
+
+      - name: Get the current date
+        id: date
+        run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%SZ')"
+
+      - name: Clear
         if: always()
         run: |
           rm -f ${HOME}/.docker/config.json
